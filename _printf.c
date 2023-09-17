@@ -1,71 +1,93 @@
+#include "main.h"
 #include <stdio.h>
 #include <stdarg.h>
-#include <time.h>
-#include <string.h>
+
+#define BUFF_SIZE 100
+
+void print_buffer(char buffer[], int *buff_ind);
+
+
 /**
- * Printf: int_printf function tkes a format string and variable number of arguments using the stdarg.h libarary
- * formart: @formart
- * Return: return void
+
+ * int_printf - Printf function
+
+ * @format: format.
+
+ * Return: Printed chars.
+
  */
 
-int int_printf(const char *format, ...) {
-    va_list args;
-    va_start(args, format);
-    
-    int printed_chars = 0;
-    
-    while (*format != '\0') {
-        if (*format == '%') {
-            format++;
-            
-            // Handle the conversion specifiers
-            switch (*format) {
-                case 'c': {
-                    // Print a single character
-                    int c = va_arg(args, int);
-                    putchar(c);
-                    printed_chars++;
-                    break;
+int int_printf(const char *format, ...)
+{
+        int i, printed = 0, printed_chars = 0;
+        int flags, width, precision, size, buff_ind = 0;
+        va_list list;
+        char buffer[BUFF_SIZE];
+
+        if (format == NULL)
+                return (-1);
+
+        va_start(list, format);
+
+        for (i = 0; format && format[i] != '\0'; i++)
+        {
+                if (format[i] != '%' || format[i+1] == '%')
+                {
+                        buffer[buff_ind++] = format[i];
+                        if (buff_ind == BUFF_SIZE)
+                                print_buffer(buffer, &buff_ind);
+                        printed_chars++;
                 }
-                case 's': {
-                    // Print a string
-                    char *s = va_arg(args, char*);
-                    fputs(s, stdout);
-                    printed_chars += strlen(s);
-                    break;
+                else
+                {
+                        print_buffer(buffer, &buff_ind);
+                        flags = get_flags(format, &i);
+                        width = get_width(format, &i, list);
+                        precision = get_precision(format, &i, list);
+                        size = get_size(format, &i);
+                        ++i;
+                        if (format[i] == 'c')
+                        {
+                                char c = va_arg(list, int);
+                                putchar(c);
+                                printed_chars++;
+                        }
+                        else if (format[i] == 's')
+                        {
+                                char *s = va_arg(list, char *);
+                                fputs(s, stdout);
+                                printed_chars += strlen(s);
+                        }
+                        else if (format[i] == '%')
+                        {
+                                putchar('%');
+                                printed_chars++;
+                        }
                 }
-                case '%': {
-                    // Print a percent sign
-                    putchar('%');
-                    printed_chars++;
-                    break;
-                }
-                default:
-                    // Invalid conversion specifier, ignore it
-                    break;
-            }
-        } else {
-            // Print regular characters
-            putchar(*format);
-            printed_chars++;
         }
-        
-        format++;
-    }
-    
-    va_end(args);
-    
-    return printed_chars;
+
+        print_buffer(buffer, &buff_ind);
+
+        va_end(list);
+
+        return (printed_chars);
 }
 
-int main()
+
+/**
+
+ * print_buffer - Prints the contents of the buffer if it exists
+
+ * @buffer: Array of chars
+
+ * @buff_ind: Index at which to add next char, represents the length.
+
+ */
+
+void print_buffer(char buffer[], int *buff_ind)
 {
-    size_t currentTime;
-    time(&currentTime);
-    
-    struct tm *localTime = localtime(&currentTime);
-    
-    int_printf("Current time: %02d:%02d:%02d\n", localTime->tm_hour, localTime->tm_min, localTime->tm_sec);
-    
-    return 0;
+        if (*buff_ind > 0)
+                write(1, &buffer[0], *buff_ind);
+
+        *buff_ind = 0;
 }

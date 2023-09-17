@@ -1,1 +1,1 @@
-To test run the files
+This directory was created to test files

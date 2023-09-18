@@ -1,6 +1,3 @@
-#include "studio.h"
-#include "stdarg.h"
-#include "unistd.g"
 #include "main.h"
 
 /************************* PRINT CHAR *************************/

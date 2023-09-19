@@ -4,22 +4,22 @@
 /**
  * handle_write_char - Prints a string
  * @c: char types.
- * @buffer: Buffer array to handle print
- * @flags:  Calculates active flags.
- * @width: get width.
- * @precision: precision specifier
- * @size: Size specifier
+ * @tempBuffer: Buffer array to handle print
+ * @activeFlags:  Calculates active flags.
+ * @textwidth: get width.
+ * @valueprecision: precision specifier
+ * @typesize: Size specifier
  *
  * Return: Number of chars printed.
  */
-int handle_write_char(char c, char buffer[],
+int handle_write_char(char c, char tempBuffer[],
 	int activeFlags, int textwidth, int valueprecision, int typesize)
 { /* char is stored at left and paddind at buffer's right */
 	int i = 0;
 	char padd = ' ';
 
-	UNUSED(precision);
-	UNUSED(size);
+	UNUSED(valueprecision);
+	UNUSED(typesize);
 
 	if (activeFlags & F_ZERO)
 		padd = '0';
@@ -30,18 +30,18 @@ int handle_write_char(char c, char buffer[],
 	if (textwidth > 1)
 	{
 		tempBuffer[BUFF_SIZE - 1] = '\0';
-		for (i = 0; i < width - 1; i++)
+		for (i = 0; i < textwidth - 1; i++)
 			tempBuffer[BUFF_SIZE - i - 2] = padd;
 
-		if (flags & F_MINUS)
-			return (write(1, &buffer[0], 1) +
-					write(1, &buffer[BUFF_SIZE - i - 1], width - 1));
+		if (activeFlags & F_MINUS)
+			return (write(1, &tempBuffer[0], 1) +
+					write(1, &tempBuffer[BUFF_SIZE - i - 1], textwidth - 1));
 		else
-			return (write(1, &buffer[BUFF_SIZE - i - 1], width - 1) +
-					write(1, &buffer[0], 1));
+			return (write(1, &tempBuffer[BUFF_SIZE - i - 1], textwidth - 1) +
+					write(1, &tempBuffer[0], 1));
 	}
 
-	return (write(1, &buffer[0], 1));
+	return (write(1, &tempBuffer[0], 1));
 }
 
 /************************* WRITE NUMBER *************************/
@@ -49,11 +49,11 @@ int handle_write_char(char c, char buffer[],
  * write_number - Prints a string
  * @is_negative: Lista of arguments
  * @ind: char types.
- * @tempBuffer: Buffer array to handle print
- * @flags:  Calculates active flags
- * @width: acquire width.
- * @precision: precision specifier
- * @size: Size specifier
+ * @buffer: Buffer array to handle print
+ * @activeFlags:  Calculates active flags
+ * @textwidth: acquire width.
+ * @valueprecision: precision specifier
+ * @typesize: Size specifier
  *
  * Return: Number of chars printed.
  */
@@ -63,18 +63,18 @@ int write_number(int is_negative, int ind, char buffer[],
 	int length = BUFF_SIZE - ind - 1;
 	char padd = ' ', extra_ch = 0;
 
-	UNUSED(size);
+	UNUSED(typesize);
 
-	if ((flags & F_ZERO) && !(flags & F_MINUS))
+	if ((activeFlags & F_ZERO) && !(activeFlags & F_MINUS))
 		padd = '0';
 	if (is_negative)
 		extra_ch = '-';
-	else if (flags & F_PLUS)
+	else if (activeFlags & F_PLUS)
 		extra_ch = '+';
-	else if (flags & F_SPACE)
+	else if (activeFlags & F_SPACE)
 		extra_ch = ' ';
 
-	return (write_num(ind, buffer, flags, width, precision,
+	return (write_num(ind, buffer, activeFlags, textwidth, valueprecision,
 		length, padd, extra_ch));
 }
 

@@ -36,7 +36,8 @@ int my_printf(const char *inputFmt, ...)
 			valuePrecision = acquire_precision(inputFmt, &counter, argslist);
 			typeSize = acquire_size(inputFmt, &counter);
 			++counter;
-			returnedVal = handle_print(inputFmt, &counter, argslist, tempBuffer, activieFlags, textwidth, valuePrecision, typeSize);
+			returnedVal = handle_print(inputFmt, &counter, argslist,
+				tempBuffer, activieFlags, textwidth, valuePrecision, typeSize);
 			if (returnedVal == -1)
 				return (-1);
 			totalCharCount += returnedVal;
@@ -48,4 +49,17 @@ int my_printf(const char *inputFmt, ...)
 	va_end(argslist);
 
 	return (totalCharCount);
+}
+
+/**
+ * update_buffer - Prints the contents of the buffer if it exist
+ * @tempBuffer: Array of chars
+ * @bufferIndex: Index at which to add next char, represents the length.
+ */
+void update_buffer(char tempBuffer[], int *bufferIndex)
+{
+	if (*bufferIndex > 0)
+		write(1, &tempBuffer[0], *bufferIndex);
+
+	*bufferIndex = 0;
 }

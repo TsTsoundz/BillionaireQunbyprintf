@@ -2,10 +2,9 @@
 
 /**
  * acquire_flags - function that prints flag
- * get_flags - Calculates active flags
  * @format: Formatted string in which to print the arguments
  * @counter: Pointer to an integer that keeps track of the current position
- * Return: Flags:
+ * Return: activeFlags:
  */
 int acquire_flags(const char *format, int *counter)
 {

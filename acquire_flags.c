@@ -1,6 +1,7 @@
 #include "main.h"
 
 /**
+ * acquire_flags - function that prints flag
  * get_flags - Calculates active flags
  * @inputFmt: Formatted string in which to print the arguments
  * @counter: Pointer to an integer that keeps track of the current position

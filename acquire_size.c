@@ -9,18 +9,17 @@
  */
 int acquire_size(const char *inputFmt, int *counter)
 {
-    int currCounter = *counter + 1;
-    int typeSize = 0;
+	int currCounter = *counter + 1;
+	int typeSize = 0;
 
-    if (inputFmt[currCounter] == 'l')
-        typeSize = S_LONG;
-    else if (inputFmt[currCounter] == 'h')
-        typeSize = S_SHORT;
+	if (inputFmt[currCounter] == 'l')
+		typeSize = S_LONG;
+	else if (inputFmt[currCounter] == 'h')
+		typeSize = S_SHORT;
 
-    if (typeSize == 0)
-        *counter = currCounter - 1;
-    else
-        *counter = currCounter;
-
-    return (typeSize);
+	if (typeSize == 0)
+		*counter = currCounter - 1;
+	else
+		*counter = currCounter;
+	return (typeSize);
 }

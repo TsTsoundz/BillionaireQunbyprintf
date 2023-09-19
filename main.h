@@ -43,7 +43,7 @@ int _printf(const char *format, ...);
 
 int handle_print(const char *format, int *counter, va_list argslist,
 char tempBuffer[],
-int activieFlags, int textwidth, int valuePrecision, int typeSize);
+int activeFlags, int textwidth, int valuePrecision, int typeSize);
 
 /****************** FUNCTIONS ******************/
 

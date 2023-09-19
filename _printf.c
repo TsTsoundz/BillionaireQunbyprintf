@@ -9,8 +9,8 @@ void update_buffer(char tempBuffer[], int *bufferIndex);
 int _printf(const char *format, ...)
 {
 
-	int counter, totalCharCount = 0, returnedVal = 0;
-	int activieFlags, textwidth, valuePrecision, typeSize, bufferIndex = 0;
+	int counter, totalCharCount = 0, remitVal = 0;
+	int activeFlags, textwidth, valuePrecision, typeSize, bufferIndex = 0;
 	va_list argslist;
 	char tempBuffer[BUFF_SIZE];
 
@@ -31,16 +31,16 @@ int _printf(const char *format, ...)
 		else
 		{
 			update_buffer(tempBuffer, &bufferIndex);
-			activieFlags = acquire_flags(format, &counter);
+			activeFlags = acquire_flags(format, &counter);
 			textwidth = acquire_width(format, &counter, argslist);
 			valuePrecision = acquire_precision(format, &counter, argslist);
 			typeSize = acquire_size(format, &counter);
 			++counter;
-			returnedVal = handle_print(format, &counter, argslist,
-				tempBuffer, activieFlags, textwidth, valuePrecision, typeSize);
-			if (returnedVal == -1)
+			remitVal = handle_print(format, &counter, argslist,
+				tempBuffer, activeFlags, textwidth, valuePrecision, typeSize);
+			if (remitVal == -1)
 				return (-1);
-			totalCharCount += returnedVal;
+			totalCharCount += remitVal;
 		}
 	}
 

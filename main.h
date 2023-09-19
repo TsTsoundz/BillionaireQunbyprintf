@@ -81,8 +81,8 @@ int flags, int width, int precision, int size);
 
 /* Functions to handle other specifiers */
 int acquire_flags(const char *format, int *counter);
-int acquire_width(const char *format, int *counter, va_list list);
-int acquire_precision(const char *format, int *counter, va_list list);
+int acquire_width(const char *format, int *counter, va_list argslist);
+int acquire_precision(const char *format, int *counter, va_list argslist);
 int acquire_size(const char *format, int *counter);
 
 /* Function to print string in reverse */

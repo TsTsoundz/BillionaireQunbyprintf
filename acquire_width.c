@@ -2,26 +2,26 @@
 
 /**
  * acquire_width - Calculates the width for printing
- * @inputFmt: Formatted string in which to print the arguments
+ * @format: Formatted string in which to print the arguments
  * @counter: Pointer to an integer that keeps track of the current position
  * @argslist: List of arguments
  *
- * Return: Width.
+ * Return: textwidth.
  */
-int acquire_width(const char *inputFmt, int *counter, va_list argslist)
+int acquire_width(const char *format, int *counter, va_list argslist)
 {
 	int currCounter;
 	int textwidth = 0;
 
-	for (currCounter = *counter + 1; inputFmt[currCounter] != '\0';
+	for (currCounter = *counter + 1; format[currCounter] != '\0';
 				currCounter++)
 	{
-		if (is_digit(inputFmt[currCounter]))
+		if (is_digit(format[currCounter]))
 		{
 			textwidth *= 10;
-			textwidth += inputFmt[currCounter] - '0';
+			textwidth += format[currCounter] - '0';
 		}
-		else if (inputFmt[currCounter] == '*')
+		else if (format[currCounter] == '*')
 		{
 			currCounter++;
 			textwidth = va_arg(argslist, int);

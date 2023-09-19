@@ -31,13 +31,12 @@ int my_printf(const char *inputFmt, ...)
 		else
 		{
 			update_buffer(tempBuffer, &bufferIndex);
-			activieFlags = get_flags(inputFmt, &counter);
-			textwidth = get_width(inputFmt, &counter, argslist);
+			activieFlags = acquire_flags(inputFmt, &counter);
+			textwidth = acquire_width(inputFmt, &counter, argslist);
 			valuePrecision = acquire_precision(inputFmt, &counter, argslist);
 			typeSize = acquire_size(inputFmt, &counter);
 			++counter;
-			returnedVal = (handle_print(inputFmt, &counter, argslist,
-			tempBuffer, activieFlags, textwidth, valuePrecision, typeSize));
+			returnedVal = handle_print(inputFmt, &counter, argslist, tempBuffer, activieFlags, textwidth, valuePrecision, typeSize);
 			if (returnedVal == -1)
 				return (-1);
 			totalCharCount += returnedVal;

@@ -39,11 +39,11 @@ int (*fn)(va_list, char[], int, int, int, int);
  */
 typedef struct fmt fmt_t;
 
-int my_printf(const char *inputFmt, ...);
+int _printf(const char *format, ...);
 
-int handle_print(const char *fmt, int *counter, va_list argslist,
+int handle_print(const char *format, int *counter, va_list argslist,
 char tempBuffer[],
-int activeFlags, int textwidth, int valuePrecision, int typeSize);
+int activieFlags, int textwidth, int valuePrecision, int typeSize);
 
 /****************** FUNCTIONS ******************/
 
